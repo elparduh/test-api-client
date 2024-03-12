@@ -7,13 +7,37 @@ class Endpoint {
   final Map<String, String> queryParameters;
   final Map<String, String> additionalHeaders;
   final dynamic body;
-  
-  Endpoint({
-    required this.path,
-    required this.httpMethod,
-    this.queryParameters = const {},
-    this.additionalHeaders = const {},
-    this.body
-    });
+
+  Endpoint(
+      {required this.path,
+      required this.httpMethod,
+      this.queryParameters = const {},
+      this.additionalHeaders = const {},
+      this.body});
 }
 
+extension EndpointExt on Endpoint {
+
+  Uri updateURLComponents() {
+    Uri url = Uri.parse(path.fullPath);
+
+    if (queryParameters.isNotEmpty) {
+      url = url.replace(
+        queryParameters: queryParameters,
+      );
+    }
+
+    return url;
+  }
+
+  Map<String, String> setAllHeaders() {
+    Map<String, String> headers;
+
+    headers = {
+      'Content-Type': 'application/json; chartset=UTF-8',
+      ...additionalHeaders,
+    };
+
+    return headers;
+  }
+}
