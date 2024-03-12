@@ -1,4 +1,4 @@
-import 'package:http_client/api_client/api_config.dart';
+import 'package:http_client/api_config/api_config.dart';
 
 enum Path { dogs }
 

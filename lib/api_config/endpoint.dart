@@ -1,5 +1,5 @@
-import 'package:http_client/api_client/http_method.dart';
-import 'package:http_client/api_client/path.dart';
+import 'package:http_client/api_config/http_method.dart';
+import 'package:http_client/api_config/path.dart';
 
 class Endpoint {
   final Path path;
@@ -16,3 +16,4 @@ class Endpoint {
     this.body
     });
 }
+
