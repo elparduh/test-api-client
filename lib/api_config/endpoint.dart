@@ -18,7 +18,7 @@ class Endpoint {
 }
 
 extension EndpointExt on Endpoint {
-  Uri updateURLComponents() {
+  Uri getUrlRequest() {
     Uri url = Uri.parse(path.fullPath);
 
     if (queryParameters.isNotEmpty) {
