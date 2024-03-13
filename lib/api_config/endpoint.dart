@@ -31,7 +31,13 @@ extension EndpointExt on Endpoint {
   }
 
   Map<String, String> addAllHeaders() {
-    final headers = additionalHeaders..addAll(ApiConfig.contentType);
+    Map<String, String> headers;
+
+    headers = {
+      ApiConfig.contentType: ApiConfig.applicationJson,
+      ...additionalHeaders,
+    };
+
     return headers;
   }
 }
