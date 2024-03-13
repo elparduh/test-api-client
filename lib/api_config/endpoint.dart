@@ -1,3 +1,4 @@
+import 'package:http_client/api_config/api_config.dart';
 import 'package:http_client/api_config/http_method.dart';
 import 'package:http_client/api_config/path.dart';
 
@@ -17,7 +18,6 @@ class Endpoint {
 }
 
 extension EndpointExt on Endpoint {
-
   Uri updateURLComponents() {
     Uri url = Uri.parse(path.fullPath);
 
@@ -30,14 +30,8 @@ extension EndpointExt on Endpoint {
     return url;
   }
 
-  Map<String, String> setAllHeaders() {
-    Map<String, String> headers;
-
-    headers = {
-      'Content-Type': 'application/json; chartset=UTF-8',
-      ...additionalHeaders,
-    };
-
+  Map<String, String> addAllHeaders() {
+    final headers = additionalHeaders..addAll(ApiConfig.contentType);
     return headers;
   }
 }
