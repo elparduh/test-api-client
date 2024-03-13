@@ -9,7 +9,7 @@ void main(List<String> arguments) {
   final endpointTest = Endpoint(path: Path.dogs, httpMethod: HttpMethod.get);
 
   print(endpointTest.path.fullPath);
-  print(endpointTest.addAllHeaders());
+  print(endpointTest.getAllHeaders());
   print(endpointTest.httpMethod.toString());
   /*final url = 'https://jsonblob.com/api/1151549092634943488';
   http.get(Uri.parse(url)).then((res) {

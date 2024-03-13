@@ -30,7 +30,7 @@ extension EndpointExt on Endpoint {
     return url;
   }
 
-  Map<String, String> addAllHeaders() {
+  Map<String, String> getAllHeaders() {
     Map<String, String> headers;
 
     headers = {

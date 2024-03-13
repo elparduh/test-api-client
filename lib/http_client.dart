@@ -7,10 +7,10 @@ import 'package:http/http.dart' as http;
   });
 }*/
 
-class HttpClientBuilder {
-  final http.Client client = http.Client();
+/*class HttpClientBuilder {
+  final http.Client _client = http.Client();
 
   Future request({required Endpoint endpoint}) {
     throw UnimplementedError();
   }
-}
+}*/
