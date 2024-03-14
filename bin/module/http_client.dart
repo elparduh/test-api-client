@@ -4,11 +4,13 @@ import 'package:http_client/api_builder/http_client_builder.dart';
 import '../endpoint/dogs_endpoint.dart';
 import 'data/dogs_api_model.dart';
 
-void main(List<String> arguments) {
+Future<void> main(List<String> arguments) async {
   final httpClientBuilder = HttpClientBuilder(http.Client());
 
-  final httpResponse = httpClientBuilder.request(endpoint: DogEndpoint.getDogs());
-  httpResponse.then((res) {
+  final httpResponse =
+      await httpClientBuilder.request(endpoint: DogEndpoint.getDogs());
+  print(httpResponse);
+  /*httpResponse.then((res) {
     final List<dynamic> bodyData = jsonDecode(res.body);
     final List<DogResponse> myDogsParsed = [];
     for (var dog in bodyData) {
@@ -16,5 +18,5 @@ void main(List<String> arguments) {
       myDogsParsed.add(dogItem);
     }
     print(myDogsParsed);
-  });
+  });*/
 }

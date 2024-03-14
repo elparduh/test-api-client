@@ -17,14 +17,16 @@ class HttpClientBuilder implements HttpClient {
   HttpClientBuilder(this._client);
 
   @override
-  Future request({required Endpoint endpoint}) {
+  Future request({required Endpoint endpoint}) async {
     switch (endpoint.httpMethod) {
       case HttpMethod.get:
-        return _client.get(endpoint.getUrlRequest(),
+        final response = await _client.get(endpoint.getUrlRequest(),
             headers: endpoint.getAllHeaders());
+        return _requestHandler(response);
       default:
-        return _client.get(endpoint.getUrlRequest(),
+        final response = await _client.get(endpoint.getUrlRequest(),
             headers: endpoint.getAllHeaders());
+        return _requestHandler(response);
     }
   }
 
