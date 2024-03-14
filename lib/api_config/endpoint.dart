@@ -18,26 +18,23 @@ class Endpoint {
 }
 
 extension EndpointExt on Endpoint {
+
   Uri getUrlRequest() {
     Uri url = Uri.parse(path.fullPath);
-
     if (queryParameters.isNotEmpty) {
       url = url.replace(
         queryParameters: queryParameters,
       );
     }
-
     return url;
   }
 
   Map<String, String> getAllHeaders() {
     Map<String, String> headers;
-
     headers = {
       ApiConfig.contentType: ApiConfig.applicationJson,
       ...additionalHeaders,
     };
-
     return headers;
   }
 }
