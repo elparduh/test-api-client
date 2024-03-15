@@ -1,16 +1,23 @@
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:http_client/api_builder/http_client_builder.dart';
 import 'package:http_client/api_config/http_response_status.dart';
 import '../endpoint/dogs_endpoint.dart';
 import 'data/dogs_api_model.dart';
 
 Future<void> main(List<String> arguments) async {
-  final httpClientBuilder = HttpClientBuilder(http.Client());
+  final httpClientBuilder = HttpClientBuilder();
 
-  final httpResponse =
-      await httpClientBuilder.request(endpoint: DogEndpoint.getDogs());
-  print(httpResponse);
+  try {
+    final httpResponse =
+        await httpClientBuilder.request(endpoint: DogEndpoint.getDogs());
+    print(httpResponse);
+  } on HttpRequestStatus catch (error) {
+    print(error.message);
+    rethrow;
+  } on Exception catch (e) {
+    throw httpClientBuilder.createRequestStatusFrom(e);
+  }
+
   /*httpResponse.then((res) {
     final List<dynamic> bodyData = jsonDecode(res.body);
     final List<DogResponse> myDogsParsed = [];

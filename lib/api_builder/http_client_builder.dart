@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http_client/api_config/http_response_status.dart';
@@ -12,24 +13,23 @@ abstract class HttpClient {
 }
 
 class HttpClientBuilder implements HttpClient {
-  final http.Client _client;
-
-  HttpClientBuilder(this._client);
-
   @override
   Future request({required Endpoint endpoint}) async {
     switch (endpoint.httpMethod) {
       case HttpMethod.get:
-        final response = await _client.get(endpoint.getUrlRequest(),
+        final response = await http.get(endpoint.getUrlRequest(),
             headers: endpoint.getAllHeaders());
-        final requestStatus = createRequestStatus(response);
+        final requestStatus = _createRequestStatus(response);
         if (requestStatus.hasErrors()) {
           throw requestStatus;
         }
-        return _requestHandler(response);
+        final responseJson = jsonDecode(response.body);
+        return responseJson;
       default:
-        final response = await _client.get(endpoint.getUrlRequest(),
+        final response = await http.get(endpoint.getUrlRequest(),
             headers: endpoint.getAllHeaders());
+            //final jsonBody = body != null ? jsonEncode(body) : null;POST
+            
         return _requestHandler(response);
     }
   }
@@ -43,11 +43,17 @@ class HttpClientBuilder implements HttpClient {
     }
   }
 
-  HttpRequestStatus createRequestStatus(http.Response response) =>
+  HttpRequestStatus _createRequestStatus(http.Response response) =>
       switch (response.statusCode) {
         200 => const SuccessfulRequest(),
         403 => const AccessDenied(),
         >= 500 && <= 599 => const UnavailableServer(),
         _ => Unknown(response.body)
+      };
+
+  HttpRequestStatus createRequestStatusFrom(Exception exception) =>
+      switch (exception) {
+        SocketException() => const ConnectionNetwork(),
+        _ => Unknown(exception.toString())
       };
 }

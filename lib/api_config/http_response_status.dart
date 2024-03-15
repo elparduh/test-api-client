@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:http_client/api_config/localizable.dart';
 
 enum HttpResponseStatus {
@@ -37,4 +39,15 @@ class Unknown extends HttpRequestStatus {
 
 extension HttpRequestStatusX on HttpRequestStatus {
   hasErrors() => this is! SuccessfulRequest;
+}
+
+sealed class ErrorState {
+  final String errorMessage;
+  ErrorState(this.errorMessage);
+}
+
+class SuccessfulErrorStateRequest extends ErrorState {
+  @override
+  final String errorMessage;
+  SuccessfulErrorStateRequest(this.errorMessage) : super(errorMessage);
 }
