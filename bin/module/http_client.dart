@@ -9,7 +9,7 @@ Future<void> main(List<String> arguments) async {
 
   try {
     final httpResponse =
-        await httpClientBuilder.request(endpoint: DogEndpoint.getDogs());
+        await httpClientBuilder.get(endpoint: DogEndpoint.getDogs());
     print(httpResponse);
   } on HttpRequestStatus catch (error) {
     print(error.message);
