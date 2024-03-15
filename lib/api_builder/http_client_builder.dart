@@ -22,6 +22,10 @@ class HttpClientBuilder implements HttpClient {
       case HttpMethod.get:
         final response = await _client.get(endpoint.getUrlRequest(),
             headers: endpoint.getAllHeaders());
+        final requestStatus = createRequestStatus(response);
+        if (requestStatus.hasErrors()) {
+          throw requestStatus;
+        }
         return _requestHandler(response);
       default:
         final response = await _client.get(endpoint.getUrlRequest(),
@@ -34,16 +38,16 @@ class HttpClientBuilder implements HttpClient {
     switch (response.statusCode) {
       case 200:
         return jsonDecode(response.body);
-      case 400:
-        throw HttpResponseStatus.badRequest;
-      case 401:
-        throw HttpResponseStatus.unauthorized;
-      case 403:
-        throw HttpResponseStatus.forbidden;
-      case 404:
-        throw HttpResponseStatus.notFound;
       default:
         throw HttpResponseStatus.serverError;
     }
   }
+
+  HttpRequestStatus createRequestStatus(http.Response response) =>
+      switch (response.statusCode) {
+        200 => const SuccessfulRequest(),
+        403 => const AccessDenied(),
+        >= 500 && <= 599 => const UnavailableServer(),
+        _ => Unknown(response.body)
+      };
 }

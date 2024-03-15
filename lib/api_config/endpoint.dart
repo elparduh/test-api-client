@@ -18,14 +18,9 @@ class Endpoint {
 }
 
 extension EndpointExt on Endpoint {
-
   Uri getUrlRequest() {
     Uri url = Uri.parse(path.fullPath);
-    if (queryParameters.isNotEmpty) {
-      url = url.replace(
-        queryParameters: queryParameters,
-      );
-    }
+    url = _setQueryParameters(url);
     return url;
   }
 
@@ -36,5 +31,14 @@ extension EndpointExt on Endpoint {
       ...additionalHeaders,
     };
     return headers;
+  }
+
+  Uri _setQueryParameters(Uri url) {
+    if (queryParameters.isNotEmpty) {
+      url = url.replace(
+        queryParameters: queryParameters,
+      );
+    }
+    return url;
   }
 }

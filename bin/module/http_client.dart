@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_client/api_builder/http_client_builder.dart';
+import 'package:http_client/api_config/http_response_status.dart';
 import '../endpoint/dogs_endpoint.dart';
 import 'data/dogs_api_model.dart';
 
